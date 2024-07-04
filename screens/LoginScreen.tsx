@@ -2,11 +2,18 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 export default function LoginScreen() {
-  return (
-    <View>
-      <Text>LoginScreen</Text>
-    </View>
-  )
+    return (
+        <View style={styles.container}>
+            <Text>login</Text>
+        </View>
+    )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+})
