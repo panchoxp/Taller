@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
 export default function LoginScreen() {
@@ -24,12 +24,16 @@ export default function LoginScreen() {
           />
 
         <TouchableOpacity>
-          <Text style={{color:'#3169E9'}}>Did you forget your password?</Text>
+          <Text style={{color:'#3169E9'}}>Olvidaste tu contraseña?</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} 
-                          onPress={()=> navigation.navigate('BottonTab')}>
-          <Text style={styles.buttonText}>Log in</Text>
+                          >
+          <Text style={styles.buttonText}>Ingresar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} 
+                          >
+          <Text style={styles.buttonText}>Registrar</Text>
         </TouchableOpacity>
 
     </ImageBackground>
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius:20,
     padding:10,
     width:'50%',
-    marginTop:60
+    marginTop:20
   },
 
   buttonText:{
