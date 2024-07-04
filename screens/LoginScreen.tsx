@@ -29,7 +29,7 @@ export default function LoginScreen() {
 
         <TouchableOpacity style={styles.button} 
                           >
-          <Text style={styles.buttonText}>Ingresar</Text>
+          <Text style={styles.buttonText} >Ingresar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} 
                           >
