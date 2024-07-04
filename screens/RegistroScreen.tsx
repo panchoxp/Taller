@@ -1,19 +1,99 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 
-export default function RegistroScreen() {
+const LoginScreen = () => {
+  const [nick, setNick] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   return (
-    <View  style={styles.container}>
-      <Text>asdasdads</Text>
-    </View>
-  )
-}
+    <ImageBackground source={{ uri: 'https://img.freepik.com/fotos-premium/fondo-pantalla-juegos-coloridos-call-of-duty-4k_669273-265.jpg' }} style={styles.backgroundImage}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Registro</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Nick"
+          placeholderTextColor="#aaa"
+          value={nick}
+          onChangeText={setNick}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Correo"
+          placeholderTextColor="#aaa"
+          keyboardType="email-address"
+          value={correo}
+          onChangeText={setCorreo}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Contraseña"
+          placeholderTextColor="#aaa"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Verificar Contraseña"
+          placeholderTextColor="#aaa"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
+
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Registrar</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-})
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  container:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  title: {
+    fontSize: 24,
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  input:{
+    backgroundColor:'#0009',
+    height:50,
+    width:'80%',
+    marginBottom:10,    
+    marginTop:10,
+    borderRadius:40,
+    paddingHorizontal:15,
+    color:'white',
+    borderColor:'rgb(86, 0, 136)',
+    fontSize:17
+  },
+  button:{
+    backgroundColor:'rgb(0, 216, 255)',
+    borderRadius:20,
+    padding:13,
+    width:'50%',
+    marginTop:20
+  },
+  buttonText:{
+    color:'#000',
+    fontSize:22,
+    textAlign:'center',
+
+  }
+});
+
+export default LoginScreen;
