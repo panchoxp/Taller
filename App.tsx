@@ -3,10 +3,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './screens/LoginScreen';
 import RegistroScreen from './screens/RegistroScreen';
 import Navegador from './navigators/MainNavigator';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Game from './src/components/Game';
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
-    <RegistroScreen/>
+    <GestureHandlerRootView style={{flex:1, backgroundColor:'green'}}>
+      <Game/>
+  </GestureHandlerRootView>
   );
 }
 

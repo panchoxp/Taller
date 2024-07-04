@@ -8,7 +8,7 @@ import { Coordenadas } from "../types/types";
 //}
 
 export default function Food({x, y}: Coordenadas): JSX.Element {
-    return <Text style = {[{ top: y * 10, left: x * 10}, styles.food]} >🍇</Text>
+    return <Text style = {[{ top: y * 10, left: x * 10}, styles.food]} >🍉</Text>
 }
 
 const styles = StyleSheet.create ({
