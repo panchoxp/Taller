@@ -1,7 +1,7 @@
 import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}:any) {
     return (
       <ImageBackground 
       source={{uri:"https://img.freepik.com/fotos-premium/fondo-pantalla-juegos-coloridos-call-of-duty-4k_669273-265.jpg"}}
@@ -33,7 +33,7 @@ export default function LoginScreen() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} 
                           >
-          <Text style={styles.buttonText}>Registrarse</Text>
+          <Text style={styles.buttonText} onPress={ ()=> navigation.navigate('BottomRegistrar')}>Registrarse</Text>
         </TouchableOpacity>
 
     </ImageBackground>
