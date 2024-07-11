@@ -18,8 +18,8 @@ const RegistroScreen = ({navigation}:any) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [image, setImage] = useState("");
 
-  function datosUsuario(){
-    set(databaseRef(db, 'usuarios/' + nick), {
+  function datosUsuario() {
+    set(databaseRef(db, 'usuarios/' + correo.replace('.', ',')), { // Usando 'correo' como clave primaria y reemplazando '.' por ',' porque firebase no permite puntos
       nick: nick,
       pais: pais,
       fechaDeNacimiento: fechaDeNacimiento,

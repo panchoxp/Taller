@@ -14,7 +14,7 @@ export default function LoginScreen({ navigation }: any) {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        navigation.navigate("Game");
+        navigation.navigate("Usuario");
       })
       .catch((error) => {
         const errorCode = error.code;
