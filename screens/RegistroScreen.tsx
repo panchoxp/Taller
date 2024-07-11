@@ -1,13 +1,13 @@
+import { Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-//para datos de usuario
-import { ref, set } from "firebase/database";
-import { db } from '../config/Config';
-//para registro
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../config/Config';
 
+//firebase
+import { getDatabase, ref as databaseRef, set } from "firebase/database";
+import { createUserWithEmailAndPassword } from "firebase/auth"; //registro
+import { auth, db, storage } from '../config/Config';
+//imagen
+import * as ImagePicker from 'expo-image-picker';
+import { ref as storageRef, uploadBytes } from "firebase/storage";
 
 const RegistroScreen = ({navigation}:any) => {
   const [nick, setNick] = useState('');
@@ -16,14 +16,39 @@ const RegistroScreen = ({navigation}:any) => {
   const [correo, setCorreo] = useState('');  
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [image, setImage] = useState("");
 
   function datosUsuario(){
-    set(ref(db, 'usuarios/' + nick), {
+    set(databaseRef(db, 'usuarios/' + nick), {
       nick: nick,
       pais: pais,
       fechaDeNacimiento: fechaDeNacimiento,
-      correo:correo,           
-  });
+      correo: correo,
+    });
+  }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  async function subir() {
+    const sRef = storageRef(storage, 'FotoUsuario/' + nick); // se usar el nick como nombre de la imagen
+    const response = await fetch(image);
+    const blob = await response.blob();
+    uploadBytes(sRef, blob).then((snapshot) => {
+      console.log('Uploaded a blob or file!');
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
   function registro() {
@@ -34,20 +59,36 @@ const RegistroScreen = ({navigation}:any) => {
 
     createUserWithEmailAndPassword(auth, correo, password)
       .then((userCredential) => {
-        // Signed up 
         const user = userCredential.user;
-        navigation.navigate("Login");  //redirigir al login
-        // ...
+        datosUsuario();
+        if (image) {
+          subir()
+            .then(() => {
+              navigation.navigate("Login");
+            })
+            .catch((error) => {
+              console.error("Error uploading image: ", error);
+              Alert.alert('Error', 'Hubo un problema al subir la imagen.');
+            });
+        } else {
+          navigation.navigate("Login");
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        Alert.alert(errorCode, errorMessage);
+        switch (errorCode) {
+          case 'auth/email-already-in-use':
+            Alert.alert('Error', 'El correo ya existe');
+            break;
+          case 'auth/invalid-email':
+            Alert.alert('Error', 'Correo invalido');
+            break;
+          case 'auth/missing-password':
+            Alert.alert('Error', 'Ingrese una contraseña de 6 dígitos');
+            break;
+        }
       });
   }
-
-  
 
   return (
     <ImageBackground source={{ uri: 'https://img.freepik.com/fotos-premium/fondo-pantalla-juegos-coloridos-call-of-duty-4k_669273-265.jpg' }} style={styles.backgroundImage}>
@@ -65,14 +106,15 @@ const RegistroScreen = ({navigation}:any) => {
           style={styles.input}
           placeholder="Pais"
           placeholderTextColor="#aaa"
-          value={nick}
+          value={pais}
           onChangeText={setpais}
         />
+        <Button title="Subir una foto suya" onPress={pickImage} />
         <TextInput
           style={styles.input}
-          placeholder="fecha de nacimiento"
+          placeholder="Fecha de nacimiento"
           placeholderTextColor="#aaa"
-          value={nick}
+          value={fechaDeNacimiento}
           onChangeText={setfechaDeNacimiento}
         />
         <TextInput
@@ -100,7 +142,7 @@ const RegistroScreen = ({navigation}:any) => {
           onChangeText={setConfirmPassword}
         />
 
-        <TouchableOpacity style={styles.button} onPress={()=>registro()}>
+        <TouchableOpacity style={styles.button} onPress={registro}>
           <Text style={styles.buttonText}>Registrar</Text>
         </TouchableOpacity>
       </View>
