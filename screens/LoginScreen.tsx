@@ -14,7 +14,7 @@ export default function LoginScreen({ navigation }: any) {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        navigation.navigate("MyTabs");
+        navigation.navigate("Game");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -71,11 +71,11 @@ export default function LoginScreen({ navigation }: any) {
         <Text style={{ color: 'rgb(rgb(255, 63, rgb(212, 255, 0)), 255, 0)', fontSize: 16 }}>Olvidaste tu contraseña?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}
+      <TouchableOpacity style={styles.button} onPress={() => login()}
       >
         <Text style={styles.buttonText} >Ingresar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}
+      <TouchableOpacity style={styles.button} 
       >
         <Text style={styles.buttonText} onPress={() => navigation.navigate('BottomRegistrar')}>Registrarse</Text>
       </TouchableOpacity>
