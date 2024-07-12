@@ -22,12 +22,12 @@ import { Ionicons } from "@expo/vector-icons";
 
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
 const FOOD_INITIAL_POSITION = { x: 5, y: 20 };
-const GAME_BOUNDS = { xMin: 0, xMax: 35, yMin: 0, yMax: 56 };
+const GAME_BOUNDS = { xMin: 0, xMax: 35, yMin: 0, yMax: 54 };
 const MOVE_INTERVAL = 50;
 const SCORE_INCREMENT = 10;
 const VOLUME = 1.0;
 
-export default function Game(): JSX.Element {
+export default function Game({navigation}:any): JSX.Element {
   const [sound, setSound] = React.useState<Audio.Sound | null>(null);
 
   //FUNCION PARA AGREGAR UN SONIDO
@@ -107,18 +107,19 @@ export default function Game(): JSX.Element {
       setIsGameOver((prev) => !prev);
       playSound2();
       return;
-
     }
 
     const checkCollisionWithBody = (head: Coordenadas, body: Coordenadas[]) => {
-        return body.some(segment => segment.x === head.x && segment.y === head.y);
-      };
+      return body.some(
+        (segment) => segment.x === head.x && segment.y === head.y
+      );
+    };
 
-      if (checkCollisionWithBody(newHead, snake.slice(1))) {
-        setIsGameOver(true);
-        playSound2();
-        return;
-      }
+    if (checkCollisionWithBody(newHead, snake.slice(1))) {
+      setIsGameOver(true);
+      playSound2();
+      return;
+    }
 
     //MIRAR LA DIRECCION
     switch (direccion) {
@@ -186,11 +187,16 @@ export default function Game(): JSX.Element {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.contentBack}>
-        <TouchableOpacity style={styles.touchBack}>
+        <TouchableOpacity style={styles.touchBack}
+                          onPress={()=>navigation.navigate("Opciones")}>
           <Ionicons name="arrow-back-circle" size={40} color={"#000"} />
-          <Text style={{color:'#fff', fontSize:17}}>  Volver</Text>
+          <Text style={{ color: "#000", fontSize: 17 }}> Volver</Text>
         </TouchableOpacity>
-        <Text style={styles.txtScore}>🍉{score}</Text>
+        <Text style={styles.txtScore}>🍉 {score}</Text>
+        <TouchableOpacity style={styles.touchBack}
+                          onPress={()=>navigation.navigate("DatosUsuario")}>
+          <Ionicons name="person-circle-outline" size={40} color={"#000"} />
+        </TouchableOpacity>
       </View>
 
       <PanGestureHandler onGestureEvent={handleGesture}>
@@ -201,8 +207,12 @@ export default function Game(): JSX.Element {
           </View>
         </SafeAreaView>
       </PanGestureHandler>
-      <Header reloadGame={reloadGame} isPauseD={isPaused} pauseGame={pauseGame}>
-      </Header>
+      <Header
+        reloadGame={reloadGame}
+        isPauseD={isPaused}
+        pauseGame={pauseGame}
+      ></Header>
+      <StatusBar />
     </View>
   );
 }
@@ -216,33 +226,35 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 12,
     borderColor: Colors.primary,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffff",
   },
 
   txtScore: {
-    color: "#fff",
+    color: "#000",
     fontSize: 25,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    marginTop: 50,
-    marginRight:25,
+    marginTop: 20,
+    marginRight: 25,
     flexDirection: "row",
     alignItems: "center",
   },
 
-  contentBack:{
-    flex:0.20,
+  contentBack: {
+    flex: 0.15,
     justifyContent: "space-between",
     alignItems: "flex-start",
-    flexDirection:'row'
+    flexDirection: "row",
+    borderColor: Colors.primary,
+    backgroundColor: Colors.background,
   },
 
-  touchBack:{
+  touchBack: {
     paddingHorizontal: 10,
     paddingVertical: 5,
-    marginTop: 50,
+    marginTop: 20,
     marginLeft: 15,
     flexDirection: "row",
     alignItems: "center",
-  }
+  },
 });
