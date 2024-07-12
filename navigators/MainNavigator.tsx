@@ -10,12 +10,14 @@ const Stack = createStackNavigator();
 
 function MyStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name= "Login" component={LoginScreen} />
-      <Stack.Screen name= "BottomRegistrar" component={RegistroScreen} /> 
+    <Stack.Navigator screenOptions={{ headerShown:false}}>
+      <Stack.Screen name= "Login" component={LoginScreen}  />
+      <Stack.Screen name= "Registro" component={RegistroScreen} /> 
     </Stack.Navigator>
   );
 }
+
+
 
 export default function Navegador(){
     return(

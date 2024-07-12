@@ -1,18 +1,18 @@
-import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation} : any) {
     return (
       <ImageBackground 
-      source={{uri:"https://img.freepik.com/fotos-premium/fondo-pantalla-juegos-coloridos-call-of-duty-4k_669273-265.jpg"}}
+      source={{uri:"https://img.freepik.com/premium-vector/illustration-cobra-snake_167995-436.jpg?w=740"}}
       style={styles.container}
       >
 
-        <Text style={{ color:'#0df2c9', fontSize:60, fontWeight:'bold', marginBottom:30}}>Login</Text>
+        <Text style={{ color:'#fff', fontSize:60, fontWeight:'bold', marginBottom:30}}>Log in</Text>
     
         <TextInput
           placeholder='Usuario o Email'
-          placeholderTextColor={'white'}
+          placeholderTextColor={'#fff'}
           style={styles.input}
         />
 
@@ -23,19 +23,21 @@ export default function LoginScreen() {
           style={styles.input}
           />
 
-        <TouchableOpacity>
-          <Text style={{color:'rgb(rgb(255, 63, rgb(212, 255, 0)), 255, 0)',fontSize:16}}>Olvidaste tu contraseña?</Text>
+        <TouchableOpacity style={{marginTop:20}}>
+          <Text style={{color:'#fff',fontSize:16}}>Olvidaste tu contraseña?</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} 
                           >
           <Text style={styles.buttonText} >Ingresar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} 
-                          >
-          <Text style={styles.buttonText}>Registrarse</Text>
-        </TouchableOpacity>
-
+        <View style={{flexDirection:'row', marginTop:35}}>
+          <Text style={{color:'#fff', fontSize:16}}>Todavia no tienes una cuenta? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={{color:'#3316C2', fontSize:16}}>Registrate</Text>
+          </TouchableOpacity>
+        </View>
+      <StatusBar/>
     </ImageBackground>
   )
 }
@@ -46,11 +48,12 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    
   },
   
   input:{
-    backgroundColor:'#0009',
+
     height:50,
     width:'80%',
     marginBottom:10,    
@@ -58,8 +61,11 @@ const styles = StyleSheet.create({
     borderRadius:40,
     paddingHorizontal:15,
     color:'white',
-    borderColor:'rgb(86, 0, 136)',
-    fontSize:17
+    borderColor:'#fff',
+    fontSize:15,
+    borderBottomWidth:2,
+    
+    
   },
   
   button:{

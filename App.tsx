@@ -8,9 +8,7 @@ import Game from './src/components/Game';
 
 export default function App(): JSX.Element {
   return (
-    <GestureHandlerRootView style={{flex:1, backgroundColor:'green'}}>
-      <Game/>
-  </GestureHandlerRootView>
+    <Navegador/>
   );
 }
 
