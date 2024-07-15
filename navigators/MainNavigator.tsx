@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 
 function MyStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown:false}}>
       <Stack.Screen name= "Login" component={LoginScreen} />
       <Stack.Screen name= "BottomRegistrar" component={RegistroScreen} />
       <Stack.Screen name= "Usuario" component={MyStack2} />
@@ -23,7 +23,7 @@ function MyStack() {
 
 function MyStack2() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Opciones'>
+    <Stack.Navigator initialRouteName='Opciones' >
       <Stack.Screen name= "Opciones" component={OpcionesScreen} />
       <Stack.Screen name= "Game" component={Game} />
       <Stack.Screen name= "DatosUsuario" component={DatosUsScreen} />      

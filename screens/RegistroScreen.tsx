@@ -9,11 +9,11 @@ import { auth, db, storage } from '../config/Config';
 import * as ImagePicker from 'expo-image-picker';
 import { ref as storageRef, uploadBytes } from "firebase/storage";
 
-const RegistroScreen = ({navigation}:any) => {
+const RegistroScreen = ({ navigation }: any) => {
   const [nick, setNick] = useState('');
   const [pais, setpais] = useState('')
   const [fechaDeNacimiento, setfechaDeNacimiento] = useState('')
-  const [correo, setCorreo] = useState('');  
+  const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [image, setImage] = useState("");

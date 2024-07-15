@@ -3,7 +3,7 @@ import { Alert, Button, StyleSheet, Text, View, TextInput } from 'react-native';
 import { ref, onValue, update } from 'firebase/database';
 import { auth, db } from '../config/Config';
 
-export default function VerEditarDatosScreen({ navigation }) {
+export default function VerEditarDatosScreen({ navigation } : any) {
     const [nick, setNick] = useState('');
     const [pais, setPais] = useState('');
     const [fechaDeNacimiento, setFechaDeNacimiento] = useState('');
