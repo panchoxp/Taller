@@ -9,9 +9,7 @@ import 'react-native-gesture-handler';
 
 export default function App(): JSX.Element {
   return (
-    <GestureHandlerRootView style={{flex:1, backgroundColor:'green'}}>
-      <Navegador/>
-  </GestureHandlerRootView>
+    <Navegador/>
   );
 }
 

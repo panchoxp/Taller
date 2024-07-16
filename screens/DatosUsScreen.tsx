@@ -28,7 +28,7 @@ export default function VerEditarDatosScreen({ navigation } : any) {
                 setNick(data.nick);
                 setPais(data.pais);
                 setFechaDeNacimiento(data.fechaDeNacimiento);
-                //setImage(data.image); // Si tienes un campo para imagen
+                //setImage(data.image); //  imagen
             } else {
                 Alert.alert('Error', 'No se encontraron datos para este usuario.');
             }

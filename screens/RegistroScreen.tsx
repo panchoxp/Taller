@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth"; //registro
 import { auth, db, storage } from '../config/Config';
 //imagen
 import * as ImagePicker from 'expo-image-picker';
-import { ref as storageRef, uploadBytes } from "firebase/storage";
+import { ref as storageRef, uploadBytes } from 'firebase/storage';
 
 const RegistroScreen = ({ navigation }: any) => {
   const [nick, setNick] = useState('');

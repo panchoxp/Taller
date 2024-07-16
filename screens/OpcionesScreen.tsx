@@ -13,6 +13,7 @@ export default function OpcionesScreen({ navigation }: any) {
                     onPress={() => navigation.navigate('Game')}
                     color="rgb(0, 216, 255)"
                 />
+                
                 <Button
                     title="Ver-Editar Datos"
                     onPress={() => navigation.navigate('DatosUsuario')}
