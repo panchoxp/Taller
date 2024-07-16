@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  Alert,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -19,6 +20,8 @@ import { randomFoodPosition } from "../utils/randomFoodPosition";
 import Header from "./Header";
 import { Audio } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
+import { ref, update } from "firebase/database";
+import { auth, db } from "../../config/Config";
 
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
 const FOOD_INITIAL_POSITION = { x: 5, y: 20 };
@@ -27,7 +30,9 @@ const MOVE_INTERVAL = 50;
 const SCORE_INCREMENT = 10;
 const VOLUME = 1.0;
 
-export default function Game({navigation}:any): JSX.Element {
+export default function Game({ navigation }: any): JSX.Element {
+
+  const [correo, setCorreo] = React.useState('');
   const [sound, setSound] = React.useState<Audio.Sound | null>(null);
 
   //FUNCION PARA AGREGAR UN SONIDO
@@ -151,6 +156,30 @@ export default function Game({navigation}:any): JSX.Element {
     }
   };
 
+  /////
+
+  React.useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+        const email:any = user.email; // Obtener el correo electrónico del usuario
+        setCorreo(email); // Almacenar el correo electrónico en el estado 'correo'
+      // Llamar a la función para leer los datos del usuario basado en el correo
+    }
+  }, []);
+
+  function editar() {
+    update(ref(db, 'usuarios/' + correo.replace('.', ',')), { // Ajustar la referencia para la actualización en Firebase
+      puntaje:score
+    })
+
+}
+
+React.useEffect(() => {
+  editar();
+}, [score])
+
+
+
   const handleGesture = (event: GestureEventType) => {
     const { translationX, translationY } = event.nativeEvent;
     //console.log(direccion);
@@ -187,14 +216,18 @@ export default function Game({navigation}:any): JSX.Element {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.contentBack}>
-        <TouchableOpacity style={styles.touchBack}
-                          onPress={()=>navigation.navigate("Opciones")}>
+        <TouchableOpacity
+          style={styles.touchBack}
+          onPress={() => navigation.navigate("Opciones")}
+        >
           <Ionicons name="arrow-back-circle" size={40} color={"#000"} />
           <Text style={{ color: "#000", fontSize: 17 }}> Volver</Text>
         </TouchableOpacity>
         <Text style={styles.txtScore}>🍉 {score}</Text>
-        <TouchableOpacity style={styles.touchBack}
-                          onPress={()=>navigation.navigate("DatosUsuario")}>
+        <TouchableOpacity
+          style={styles.touchBack}
+          onPress={() => navigation.navigate("DatosUsuario")}
+        >
           <Ionicons name="person-circle-outline" size={40} color={"#000"} />
         </TouchableOpacity>
       </View>

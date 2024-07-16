@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 
 function MyStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShown:false}}>
       <Stack.Screen name= "Login" component={LoginScreen} />
       <Stack.Screen name= "BottomRegistrar" component={RegistroScreen} />
       <Stack.Screen name= "Usuario" component={MyStack2} />
@@ -35,7 +35,7 @@ function MyStack2() {
 export default function Navegador(){
     return(
         <NavigationContainer>
-            <MyStack2/>
+            <MyStack/>
         </NavigationContainer>
     )
 }

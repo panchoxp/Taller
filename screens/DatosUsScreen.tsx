@@ -8,6 +8,7 @@ export default function VerEditarDatosScreen({ navigation }) {
     const [pais, setPais] = useState('');
     const [fechaDeNacimiento, setFechaDeNacimiento] = useState('');
     const [correo, setCorreo] = useState('');
+    const [puntaje, setpuntaje] = useState(0);
 
     useEffect(() => {
         const user = auth.currentUser;
@@ -24,10 +25,15 @@ export default function VerEditarDatosScreen({ navigation }) {
 
         onValue(userRef, (snapshot) => {
             const data = snapshot.val();
+            //console.log(data.puntaje);
+            
             if (data) {
                 setNick(data.nick);
                 setPais(data.pais);
                 setFechaDeNacimiento(data.fechaDeNacimiento);
+                setpuntaje(data.puntaje       
+                )
+                console.log(puntaje)
                 //setImage(data.image); // Si tienes un campo para imagen
             } else {
                 Alert.alert('Error', 'No se encontraron datos para este usuario.');
@@ -41,6 +47,7 @@ export default function VerEditarDatosScreen({ navigation }) {
             nick: nick,
             pais: pais,
             fechaDeNacimiento: fechaDeNacimiento,
+            puntaje:puntaje
         }).then(() => {
             Alert.alert('Éxito', 'Datos actualizados correctamente.');
         }).catch((error) => {
@@ -70,6 +77,7 @@ export default function VerEditarDatosScreen({ navigation }) {
                 style={styles.input}
                 onChangeText={setFechaDeNacimiento}
                 value={fechaDeNacimiento}
+                
             />
             <TextInput
                 placeholder='Correo'
@@ -77,6 +85,8 @@ export default function VerEditarDatosScreen({ navigation }) {
                 value={correo} // Mostrar el correo electrónico obtenido
                 editable={false} // El correo no es editable
             />
+
+            <Text>{puntaje}</Text>
             {/* Puedes incluir el campo para la imagen si lo necesitas */}
             {/* <TextInput
                 placeholder='URL de Imagen'
