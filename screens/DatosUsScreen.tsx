@@ -8,6 +8,7 @@ export default function VerEditarDatosScreen({ navigation } : any) {
     const [pais, setPais] = useState('');
     const [fechaDeNacimiento, setFechaDeNacimiento] = useState('');
     const [correo, setCorreo] = useState('');
+    const [puntaje, setpuntaje] = useState(0);
 
     useEffect(() => {
         const user = auth.currentUser;
@@ -24,11 +25,14 @@ export default function VerEditarDatosScreen({ navigation } : any) {
 
         onValue(userRef, (snapshot) => {
             const data = snapshot.val();
+            //console.log(data.puntaje);
+            
             if (data) {
                 setNick(data.nick);
                 setPais(data.pais);
                 setFechaDeNacimiento(data.fechaDeNacimiento);
-                //setImage(data.image); //  imagen
+                setpuntaje(data.puntaje)                
+                //setImage(data.image); // Si tienes un campo para imagen
             } else {
                 Alert.alert('Error', 'No se encontraron datos para este usuario.');
             }
@@ -40,7 +44,7 @@ export default function VerEditarDatosScreen({ navigation } : any) {
         update(ref(db, 'usuarios/' + correo.replace('.', ',')), { // Ajustar la referencia para la actualización en Firebase
             nick: nick,
             pais: pais,
-            fechaDeNacimiento: fechaDeNacimiento,
+            fechaDeNacimiento: fechaDeNacimiento,            
         }).then(() => {
             Alert.alert('Éxito', 'Datos actualizados correctamente.');
         }).catch((error) => {
@@ -70,6 +74,7 @@ export default function VerEditarDatosScreen({ navigation } : any) {
                 style={styles.input}
                 onChangeText={setFechaDeNacimiento}
                 value={fechaDeNacimiento}
+                
             />
             <TextInput
                 placeholder='Correo'
@@ -77,6 +82,8 @@ export default function VerEditarDatosScreen({ navigation } : any) {
                 value={correo} // Mostrar el correo electrónico obtenido
                 editable={false} // El correo no es editable
             />
+             
+            <Text style={styles.input}>{puntaje}</Text>
             {/* Puedes incluir el campo para la imagen si lo necesitas */}
             {/* <TextInput
                 placeholder='URL de Imagen'
