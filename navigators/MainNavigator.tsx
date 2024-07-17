@@ -24,9 +24,9 @@ function MyStack() {
 function MyStack2() {
   return (
     <Stack.Navigator initialRouteName='Opciones' >
-      <Stack.Screen name= "Opciones" component={OpcionesScreen} />
+      <Stack.Screen name= "Opciones" component={OpcionesScreen} options={{headerShown:false}}/>
       <Stack.Screen name= "Game" component={Game} options={{headerShown:false}}/>
-      <Stack.Screen name= "DatosUsuario" component={DatosUsScreen} />      
+      <Stack.Screen name= "DatosUsuario" component={DatosUsScreen}  options={{headerShown:false}}/>      
     </Stack.Navigator>
   );
 }

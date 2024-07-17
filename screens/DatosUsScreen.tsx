@@ -1,50 +1,50 @@
 import { useEffect, useState } from 'react';
-import { Alert, Button, StyleSheet, Text, View, TextInput } from 'react-native';
+import { Alert, Button, StyleSheet, Text, View, TextInput, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { ref, onValue, update } from 'firebase/database';
 import { auth, db } from '../config/Config';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function VerEditarDatosScreen({ navigation } : any) {
+const VerEditarDatosScreen = ({ navigation }: any) => {
     const [nick, setNick] = useState('');
     const [pais, setPais] = useState('');
     const [fechaDeNacimiento, setFechaDeNacimiento] = useState('');
     const [correo, setCorreo] = useState('');
-    const [puntaje, setpuntaje] = useState(0);
+    const [puntaje, setPuntaje] = useState(0);
+    const [imagen, setImagen] = useState('');
 
     useEffect(() => {
         const user = auth.currentUser;
         if (user) {
-            const email = user.email; // Obtener el correo electrónico del usuario
-            setCorreo(email); // Almacenar el correo electrónico en el estado 'correo'
-            leerUsuario(email); // Llamar a la función para leer los datos del usuario basado en el correo
+            const email:any = user.email;
+            setCorreo(email);
+            leerUsuario(email);
         }
     }, []);
 
-    // Función para leer los datos del usuario basado en el correo
-    function leerUsuario(email) {
-        const userRef = ref(db, 'usuarios/' + email.replace('.', ',')); // Ajustar el correo para la referencia en Firebase
+    function leerUsuario(email: any) {
+        const userRef = ref(db, 'usuarios/' + email.replace('.', ','));
 
         onValue(userRef, (snapshot) => {
             const data = snapshot.val();
-            //console.log(data.puntaje);
-            
+
             if (data) {
                 setNick(data.nick);
                 setPais(data.pais);
                 setFechaDeNacimiento(data.fechaDeNacimiento);
-                setpuntaje(data.puntaje)                
-                //setImage(data.image); // Si tienes un campo para imagen
+                setPuntaje(data.puntaje);
+                setImagen(data.imagen); // Asegúrate de que 'imagen' coincida con la clave en tu estructura de datos
             } else {
                 Alert.alert('Error', 'No se encontraron datos para este usuario.');
             }
         });
     }
 
-    // Función para editar los datos del usuario
     function editar() {
-        update(ref(db, 'usuarios/' + correo.replace('.', ',')), { // Ajustar la referencia para la actualización en Firebase
+        update(ref(db, 'usuarios/' + correo.replace('.', ',')), {
             nick: nick,
             pais: pais,
-            fechaDeNacimiento: fechaDeNacimiento,            
+            fechaDeNacimiento: fechaDeNacimiento,
+            imagen: imagen, // Asegúrate de que 'imagen' coincida con la clave en tu estructura de datos
         }).then(() => {
             Alert.alert('Éxito', 'Datos actualizados correctamente.');
         }).catch((error) => {
@@ -54,73 +54,145 @@ export default function VerEditarDatosScreen({ navigation } : any) {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Ver y Editar Datos</Text>
+        <ImageBackground
+            source={{ uri: "https://cdn.leonardo.ai/users/313d1b5b-609c-4010-9680-3d090077aa96/generations/1216f7f6-453e-41ef-a2a2-4f25332ceb43/Default_A_vibrant_3D_logotype_featuring_a_stylized_watermelon_1.jpg" }}
+            style={styles.backgroundImage}
+        >
+            <View style={styles.overlay}>
+                <View style={styles.container}>
+                    <View style={styles.contentBack}>
+                        <TouchableOpacity
+                            style={styles.touchBack}
+                            onPress={() => navigation.navigate("Opciones")}
+                        >
+                            <Ionicons name="arrow-back-circle" size={40} color={"#4fab36"} />
+                            <Text style={{ color: "#4fab36", fontSize: 17 }}> Volver</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.txtScore}>🍉 {puntaje}</Text>
+                        <TouchableOpacity
+                            style={styles.touchBack}
+                            onPress={() => navigation.navigate("DatosUsuario")}
+                        >
+                            {imagen ? (
+                                <Image source={{ uri: imagen }} style={styles.profileImage} />
+                            ) : (
+                                <Ionicons name="person-circle-outline" size={40} color={"#4fab36"} />
+                            )}
+                        </TouchableOpacity>
+                    </View>
 
-            <TextInput
-                placeholder='Nick'
-                style={styles.input}
-                onChangeText={setNick}
-                value={nick}
-            />
-            <TextInput
-                placeholder='Pais'
-                style={styles.input}
-                onChangeText={setPais}
-                value={pais}
-            />
-            <TextInput
-                placeholder='Fecha de Nacimiento'
-                style={styles.input}
-                onChangeText={setFechaDeNacimiento}
-                value={fechaDeNacimiento}
-                
-            />
-            <TextInput
-                placeholder='Correo'
-                style={styles.input}
-                value={correo} // Mostrar el correo electrónico obtenido
-                editable={false} // El correo no es editable
-            />
-             
-            <Text style={styles.input}>{puntaje}</Text>
-            {/* Puedes incluir el campo para la imagen si lo necesitas */}
-            {/* <TextInput
-                placeholder='URL de Imagen'
-                style={styles.input}
-                onChangeText={setImage}
-                value={image}
-            /> */}
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Nick:</Text>
+                        <TextInput
+                            placeholder='Nick'
+                            style={styles.input}
+                            onChangeText={setNick}
+                            value={nick}
+                        />
+                    </View>
 
-            {/* Botón para editar, aquí puedes usar editar() cuando lo implementes */}
-            <Button title='Editar' color={'green'} onPress={() => editar()} />
-        </View>
-    )
-}
+                    <View style={styles.row}>
+                        <Text style={styles.label}>País:</Text>
+                        <TextInput
+                            placeholder='País'
+                            style={styles.input}
+                            onChangeText={setPais}
+                            value={pais}
+                        />
+                    </View>
+
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Fecha de Nacimiento:</Text>
+                        <TextInput
+                            placeholder='Fecha de Nacimiento'
+                            style={styles.input}
+                            onChangeText={setFechaDeNacimiento}
+                            value={fechaDeNacimiento}
+                        />
+                    </View>
+
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Correo:</Text>
+                        <TextInput
+                            placeholder='Correo'
+                            style={styles.input}
+                            value={correo}
+                            editable={false}
+                        />
+                    </View>
+
+                    <Button title='Editar' color={'#4fab36'} onPress={editar} />
+                </View>
+            </View>
+        </ImageBackground>
+    );
+};
 
 const styles = StyleSheet.create({
-    container: {
+    backgroundImage: {
         flex: 1,
+        resizeMode: 'cover',
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
+    },
+    container: {
+        width: '80%',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
     },
     title: {
         fontSize: 24,
+        fontWeight: 'bold',
         marginBottom: 20,
+        color: '#fff',
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    label: {
+        width: 120,
+        marginRight: 10,
+        textAlign: 'right',
+        color: '#4fab36',
+        fontSize: 18,
     },
     input: {
-        backgroundColor: '#ddd',
+        flex: 1,
+        backgroundColor: '#f0f0f0',
         height: 50,
-        width: '80%',
-        marginBottom: 10,
-        marginTop: 10,
-        borderRadius: 40,
+        borderRadius: 5,
         paddingHorizontal: 15,
-        color: '#000',
-        borderColor: 'rgb(86, 0, 136)',
-        fontSize: 17,
+        fontSize: 16,
+        color: '#24621d',
+    },
+    contentBack: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        marginBottom: 10,
+    },
+    touchBack: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    txtScore: {
+        fontSize: 18,
+        color: '#4fab36',
+    },
+    profileImage: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
     },
 });
 
-
+export default VerEditarDatosScreen;

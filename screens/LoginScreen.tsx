@@ -1,15 +1,13 @@
-import { Alert, Button, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
-//loggin firebase
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/Config';
 
-export default function LoginScreen({ navigation }: any) {
-
+const LoginScreen = ({ navigation }: any) => {
   const [correo, setCorreo] = useState('');
   const [contrasenia, setContrasenia] = useState('');
 
-  function login() {
+  const login = () => {
     signInWithEmailAndPassword(auth, correo, contrasenia)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -19,7 +17,6 @@ export default function LoginScreen({ navigation }: any) {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        //console.log(errorCode);
 
         switch (errorCode) {
           case 'auth/invalid-credential':
@@ -39,85 +36,94 @@ export default function LoginScreen({ navigation }: any) {
             break;
         }
       });
-  }
+  };
 
   return (
     <ImageBackground
-      source={{ uri: "https://img.freepik.com/fotos-premium/fondo-pantalla-juegos-coloridos-call-of-duty-4k_669273-265.jpg" }}
-      style={styles.container}
+      source={{ uri: "https://cdn.leonardo.ai/users/313d1b5b-609c-4010-9680-3d090077aa96/generations/1216f7f6-453e-41ef-a2a2-4f25332ceb43/Default_A_vibrant_3D_logotype_featuring_a_stylized_watermelon_1.jpg" }}
+      style={styles.backgroundImage}
     >
+      <View style={styles.overlay}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Login</Text>
 
-      <Text style={{ color: '#0df2c9', fontSize: 60, fontWeight: 'bold', marginBottom: 30 }}>Login</Text>
+          <TextInput
+            placeholder='Ingresa tu correo electrónico'
+            placeholderTextColor="#aaa"
+            onChangeText={(texto) => setCorreo(texto)}
+            keyboardType='email-address'
+            value={correo}
+            style={styles.input}
+          />
 
-      <TextInput
-        placeholder='Ingresa tu correo electrónico'
-        placeholderTextColor="#aaa"
-        onChangeText={(texto) => setCorreo(texto)}
-        keyboardType='email-address'
-        value={correo}
-        style={styles.input}
-      />
+          <TextInput
+            placeholder='Ingresa contraseña'
+            placeholderTextColor="#aaa"
+            onChangeText={(texto) => setContrasenia(texto)}
+            secureTextEntry
+            value={contrasenia}
+            style={styles.input}
+          />
 
-      <TextInput
-        placeholder='Ingresa contraseña'
-        placeholderTextColor="#aaa"
-        onChangeText={(texto) => setContrasenia(texto)}
-        secureTextEntry
-        value={contrasenia}
-        style={styles.input}
-      />
+          <TouchableOpacity style={styles.button } onPress={login}>
+            <Text style={styles.buttonText}>Ingresar</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity>
-        <Text style={{ color: 'rgb(rgb(255, 63, rgb(212, 255, 0)), 255, 0)', fontSize: 16 }}>Olvidaste tu contraseña?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={() => login()}
-      >
-        <Text style={styles.buttonText} >Ingresar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} 
-      >
-        <Text style={styles.buttonText} onPress={() => navigation.navigate('BottomRegistrar')}>Registrarse</Text>
-      </TouchableOpacity>
-
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('BottomRegistrar')}>
+            <Text style={styles.buttonText}>Registrarse</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </ImageBackground>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-
-
-  container: {
+  backgroundImage: {
     flex: 1,
+    resizeMode: 'cover',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-
-  input: {
-    backgroundColor: '#0009',
-    height: 50,
+  container: {
     width: '80%',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#4fab36',  // Cambiado para que coincida con el segundo estilo
+  },
+  input: {
+    backgroundColor: '#f0f0f0',
+    height: 50,
+    width: '100%',
     marginBottom: 10,
-    marginTop: 10,
-    borderRadius: 40,
+    borderRadius: 5,
     paddingHorizontal: 15,
-    color: 'white',
-    borderColor: 'rgb(86, 0, 136)',
-    fontSize: 17
+    fontSize: 16,
+    color: '#333',  // Cambiado para que coincida con el segundo estilo
   },
-
   button: {
-    backgroundColor: 'rgb(0, 216, 255)',
-    borderRadius: 20,
-    padding: 13,
-    width: '50%',
-    marginTop: 20
+    backgroundColor: '#4fab36',
+    borderRadius: 5,
+    padding: 15,
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 20,
   },
-
   buttonText: {
     color: '#000',
-    fontSize: 22,
-    textAlign: 'center',
+    fontSize: 18,
+  },
+});
 
-  }
-})
+export default LoginScreen;

@@ -217,16 +217,10 @@ export default function Game({ navigation }: any): JSX.Element {
           style={styles.touchBack}
           onPress={() => navigation.navigate("Opciones")}
         >
-          <Ionicons name="arrow-back-circle" size={40} color={"#000"} />
-          <Text style={{ color: "#000", fontSize: 17 }}> Volver</Text>
+          <Ionicons name="arrow-back-circle" size={40} color={"#4fab36"} />
+          <Text style={{ color: "#4fab36", fontSize: 17 }}> Volver</Text>
         </TouchableOpacity>
-        <Text style={styles.txtScore}>🍉 {score}</Text>
-        <TouchableOpacity
-          style={styles.touchBack}
-          onPress={() => navigation.navigate("DatosUsuario")}
-        >
-          <Ionicons name="person-circle-outline" size={40} color={"#000"} />
-        </TouchableOpacity>
+        <Text style={styles.txtScore}>🍉 {score}</Text>        
       </View>
 
       <PanGestureHandler onGestureEvent={handleGesture}>
