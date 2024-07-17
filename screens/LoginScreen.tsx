@@ -11,7 +11,7 @@ const LoginScreen = ({ navigation }: any) => {
     signInWithEmailAndPassword(auth, correo, contrasenia)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        //console.log(user);
         navigation.navigate("Usuario");
       })
       .catch((error) => {
